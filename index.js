@@ -4,11 +4,11 @@ const mongoose = require("mongoose");
 const path = require("path");
 const port = 8080 ;
 const Chat = require("./models/chat.js");
-const { log } = require("console");
 
 app.set("views" , path.join(__dirname , "views"));
 app.set("view engine" , "ejs");
 app.use(express.static(path.join(__dirname , "public")));
+app.use(express.urlencoded({ extended : true}));
 
 main().then(() => {
     console.log("connection established");
@@ -33,6 +33,24 @@ app.get("/chats" , async (req , res) => {
 app.get("/chats/new", (req,res)=>{
     console.log("working");
     res.render("new.ejs")
+})
+
+// Create route
+
+app.post("/chats" , (req,res) => {
+    let { from , to , msg } = req.body;
+    let newChat = new Chat({
+        from : from ,
+        to: to,
+        msg: msg,
+        created_at: new Date()
+    })
+    newChat.save().then((res) => {
+        console.log(res);
+    }).catch((err) => {
+        console.log(err);
+    })
+    res.redirect("/chats");
 })
 
 app.get("/" , (req , res) => {
