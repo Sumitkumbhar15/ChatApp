@@ -17,11 +17,12 @@
         <p> From : <%= chat.from %></p>
 
         <div class="msg">
-            <p>Message : <%= chat.msg %></>
+            <p>Message : <%= chat.msg %></p>
         </div>
         <p>To : <%= chat.to %></p>
 
-        <p>Date & Time : <%= chat.created_at %></p>
+        <p>Time : <%= chat.created_at.toString().split(" ")[4] %></p>
+        <p>Date : <%= chat.created_at.toString().split(" ").slice(0,4).join("-") %></p>
     </div>
     <br><br>
     <% } %>
